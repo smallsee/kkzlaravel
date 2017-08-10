@@ -36,7 +36,10 @@ $api->version('v1', function ($api) {
 
         $api->get('tag','TagController@index');
         $api->get('akira','AkiraController@index');
-        $api->resource('video','VideoController');
+        $api->get('week','WeekController@index');
+        $api->get('video','VideoController@homeIndex');
+
+        $api->resource('admin/video','VideoController');
 
 
         $api->group(['middleware' => 'jwt.auth'], function ($api){

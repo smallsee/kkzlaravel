@@ -8,6 +8,7 @@
 
 namespace App\Api\Controllers;
 
+use App\Api\Transformers\HomeVideoTransformer;
 use App\Api\Transformers\ReplyTransformer;
 use App\Api\Transformers\VideoTransformer;
 use App\Repositories\Eloquent\VideoRepository;
@@ -23,11 +24,21 @@ class VideoController extends BaseController
 
     public function __construct(VideoRepository $video)
     {
-        $this->middleware('jwt.auth')->except(['index','show']);
+        $this->middleware('jwt.auth')->except(['index','show','homeIndex']);
+
         $reply = new ReplyTransformer();
 
         $this->video = $video;
         $this->reply = $reply;
+    }
+
+    public function homeIndex(){
+
+        $video = $this->video->findAll();
+        if(! $video){
+            return $this->reply->error(1,'视频没有数据');
+        }
+        return $this->collection($video, new HomeVideoTransformer())->addMeta('errno', 0);
     }
 
     public function index() {
