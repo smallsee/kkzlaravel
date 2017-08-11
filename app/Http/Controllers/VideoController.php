@@ -26,13 +26,22 @@ class VideoController extends Controller
                 $tag = Tag::firstOrCreate(['name' => $tag]);
             }
 
-            if (strstr($item['akira'][0],"\n") == false){
-                foreach ($item['akira'] as $akira){
-                    $akira = Akira::firstOrCreate(['name' => $akira]);
+            if (isset($item['akira'][0])){
+                if (strstr($item['akira'][0],"\n") == false){
+                    foreach ($item['akira'] as $akira){
+                        $akira = Akira::firstOrCreate(['name' => $akira]);
+                    }
+                }else{
+                    $akira = Akira::firstOrCreate(['name' => '未知声优']);
                 }
+                $akiraData = strstr($item['akira'][0],"\n") == false ? implode(',',$item['akira']) : '未知声优';
             }else{
                 $akira = Akira::firstOrCreate(['name' => '未知声优']);
+                $akiraData = '未知声优';
             }
+
+
+
 
 
             $count = 0;
@@ -50,7 +59,7 @@ class VideoController extends Controller
                 'status' => 1,
                 'issue_date' => $item['created_at'],
                 'tag' => implode(',',$item['tag']),
-                'akira' => strstr($item['akira'][0],"\n") == false ? implode(',',$item['akira']) : '未知声优',
+                'akira' => $akiraData,
             ];
 
 
@@ -68,9 +77,17 @@ class VideoController extends Controller
                     ]);
                 }
 
-                if (strstr($item['akira'][0],"\n") == false){
-                    foreach ($item['akira'] as $akira){
-                        $akira_id = Akira::where('name', $akira)->first()->id;
+                if (isset($item['akira'][0])){
+                    if (strstr($item['akira'][0],"\n") == false){
+                        foreach ($item['akira'] as $akira){
+                            $akira_id = Akira::where('name', $akira)->first()->id;
+                            VideoAkira::firstOrCreate([
+                                'akira_id' =>  $akira_id,
+                                'video_id' =>  $video->id
+                            ]);
+                        }
+                    }else{
+                        $akira_id = Akira::where('name', '未知声优')->first()->id;
                         VideoAkira::firstOrCreate([
                             'akira_id' =>  $akira_id,
                             'video_id' =>  $video->id
@@ -83,6 +100,7 @@ class VideoController extends Controller
                         'video_id' =>  $video->id
                     ]);
                 }
+
 
                 foreach ($item['file_url'] as $file_url){
 

@@ -49,7 +49,7 @@ abstract class Repository implements RepositoryInterface {
      */
     public function findAll()
     {
-        return $this->model->orderBy('created_at','desc')->get();
+        return $this->model->get();
     }
 
 

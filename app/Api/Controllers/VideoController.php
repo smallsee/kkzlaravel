@@ -24,7 +24,7 @@ class VideoController extends BaseController
 
     public function __construct(VideoRepository $video)
     {
-        $this->middleware('jwt.auth')->except(['index','show','homeIndex']);
+        $this->middleware('jwt.auth')->except(['index','show','homeIndex','homeRecommend']);
 
         $reply = new ReplyTransformer();
 
@@ -34,11 +34,23 @@ class VideoController extends BaseController
 
     public function homeIndex(){
 
+        //书籍列表拼接
+        $data = (object)array();
+
         $video = $this->video->findAll();
         if(! $video){
             return $this->reply->error(1,'视频没有数据');
         }
+
         return $this->collection($video, new HomeVideoTransformer())->addMeta('errno', 0);
+    }
+
+    public function homeRecommend(Request $request) {
+
+        $akiraList = $request->get('akiraList');
+        $tagList = $request->get('tagList');
+
+        return $video = $this->video->findRecommendAll($tagList, $akiraList);
     }
 
     public function index() {
@@ -56,7 +68,7 @@ class VideoController extends BaseController
         $video = $this->video->findById($id);
 
         if(! $video){
-            return $this->error->error(1,'视频没有数据');
+            return $this->reply->error(1,'视频没有数据');
         }
 
         return $this->response->item($video, new VideoTransformer)->addMeta('errno', 0);

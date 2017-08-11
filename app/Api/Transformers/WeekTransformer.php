@@ -15,7 +15,7 @@ class WeekTransformer extends TransformerAbstract
     public function transform($week){
         return [
           'id' => $week['id'],
-          'date' => $week['date'],
+          'name' => $week['date'],
         ];
     }
 

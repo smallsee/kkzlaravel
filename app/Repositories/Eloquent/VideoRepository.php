@@ -130,6 +130,16 @@ class VideoRepository extends Repository{
 
     }
 
+    public function findById($id)
+    {
+        $video = $this->model->find($id);
+        $video->increment('see');
+        return $video;
+    }
+
+    public function findHotAll(){
+        return $this->model->orderBy('see','desc')->take(10)->get();
+    }
 
 
 }

@@ -28,6 +28,7 @@ class VideoTransformer extends TransformerAbstract
           'tag' => explode(',',$video['tag']),
           'see' => $video['see'],
           'files' => $video['files'],
+            'files_count' => count($video['files']),
           'introduction' => $video['introduction'],
         ];
     }
