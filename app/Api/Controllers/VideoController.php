@@ -34,10 +34,10 @@ class VideoController extends BaseController
 
     public function homeIndex(){
 
-        //书籍列表拼接
-        $data = (object)array();
 
         $video = $this->video->findAll();
+        $video->load('files','commits');
+
         if(! $video){
             return $this->reply->error(1,'视频没有数据');
         }
@@ -55,7 +55,8 @@ class VideoController extends BaseController
 
     public function index() {
         $video = $this->video->findAll();
-        $video->load('files');
+        $video->load('files','commits');
+
 
         if(! $video){
             return $this->reply->error(1,'视频没有数据');
@@ -66,7 +67,7 @@ class VideoController extends BaseController
 
     public function show($id) {
         $video = $this->video->findById($id);
-
+        $video->load('files','commits');
         if(! $video){
             return $this->reply->error(1,'视频没有数据');
         }

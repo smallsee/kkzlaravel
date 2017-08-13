@@ -88,9 +88,16 @@ abstract class Repository implements RepositoryInterface {
         return $this->model->where($name,$data)->first();
     }
 
+    public function createCommit($attributes){
+        $model = new $this->model;
+        return $model->create($attributes);
+    }
+
     public function makeModel(){
         $model = $this->app->make($this->model());
         /*是否是Model实例*/
         $this->model = $model;
     }
+
+
 }

@@ -30,6 +30,8 @@ class VideoTransformer extends TransformerAbstract
           'files' => $video['files'],
             'files_count' => count($video['files']),
           'introduction' => $video['introduction'],
+            'commits_count' => count($video['commits']),
+            'commits' => $video['commits'],
         ];
     }
 

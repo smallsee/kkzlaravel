@@ -25,4 +25,10 @@ class Video extends Model
     public function akiras(){
         return $this->belongsToMany(\App\Akira::class, 'video_akiras','video_id','akira_id');
     }
+
+    public function commits()
+    {
+        return $this->morphMany('App\Commit', 'commit')->with('user')->orderBy('created_at','desc');
+    }
+
 }

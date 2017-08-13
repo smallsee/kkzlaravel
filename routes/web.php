@@ -33,6 +33,9 @@ $api->version('v1', function ($api) {
         $api->post('image/','ImageController@upload');
         $api->post('image/delete','ImageController@delete');
 
+        $api->get('commit','CommitController@index');
+        $api->post('commit','CommitController@store');
+
 
         $api->get('tag','TagController@index');
         $api->get('akira','AkiraController@index');

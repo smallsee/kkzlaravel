@@ -24,6 +24,8 @@ class HomeVideoTransformer extends TransformerAbstract
             'issue_date' => $video['issue_date'],
             'update_date' => $video['update_date'],
             'files_count' => count($video['files']),
+            'commits_count' => count($video['commits']),
+            'commits' => $video['commits'],
         ];
     }
 
