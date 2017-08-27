@@ -142,4 +142,9 @@ class VideoRepository extends Repository{
     }
 
 
+    public function findLikeTitle($title){
+        return $this->model->where('title','like','%'.$title.'%')->get();
+    }
+
+
 }

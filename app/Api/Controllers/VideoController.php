@@ -24,12 +24,16 @@ class VideoController extends BaseController
 
     public function __construct(VideoRepository $video)
     {
-        $this->middleware('jwt.auth')->except(['index','show','homeIndex','homeRecommend']);
+        $this->middleware('jwt.auth')->except(['index','show','homeIndex','homeRecommend','search']);
 
         $reply = new ReplyTransformer();
 
         $this->video = $video;
         $this->reply = $reply;
+    }
+
+    public function search(Request $request) {
+        return $this->video->findLikeTitle($request->get('title'));
     }
 
     public function homeIndex(){

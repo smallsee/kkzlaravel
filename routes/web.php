@@ -41,6 +41,7 @@ $api->version('v1', function ($api) {
         $api->get('akira','AkiraController@index');
         $api->get('week','WeekController@index');
         $api->get('video','VideoController@homeIndex');
+        $api->get('video/search','VideoController@search');
         $api->get('video/recommend','VideoController@homeRecommend');
 
         $api->resource('admin/video','VideoController');
