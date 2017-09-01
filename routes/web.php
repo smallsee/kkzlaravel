@@ -32,11 +32,13 @@ $api->version('v1', function ($api) {
 
         $api->post('image/','ImageController@upload');
         $api->post('image/delete','ImageController@delete');
+        $api->post('crop/upload','ImageController@crop');
 
         $api->get('commit','CommitController@index');
         $api->post('commit','CommitController@store');
 
 
+        $api->get('topic','TopicController@index');
         $api->get('tag','TagController@index');
         $api->get('akira','AkiraController@index');
         $api->get('week','WeekController@index');
@@ -45,6 +47,8 @@ $api->version('v1', function ($api) {
         $api->get('video/recommend','VideoController@homeRecommend');
 
         $api->resource('admin/video','VideoController');
+        $api->resource('admin/art','ArtController');
+        $api->resource('admin/article','ArticleController');
 
 
         $api->group(['middleware' => 'jwt.auth'], function ($api){

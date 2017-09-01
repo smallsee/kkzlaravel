@@ -11,7 +11,7 @@ namespace App\Api\Controllers;
 use App\Api\Transformers\ReplyTransformer;
 use Dingo\Api\Http\Request;
 use Intervention\Image\Facades\Image;
-
+use Illuminate\Support\Facades\Input;
 class ImageController extends BaseController
 {
     private $reply;
@@ -23,6 +23,11 @@ class ImageController extends BaseController
         $this->reply = $reply;
     }
 
+    public function crop(Request $request){
+        $img = $request->file('file');
+        return $img;
+    }
+
     public function upload(Request $request){
 
 
@@ -31,7 +36,9 @@ class ImageController extends BaseController
         $height = $request->input('height',300);
         $img = Image::make($file);
         $newName = date('His').mt_rand(100,999).'.jpg';
-        $img->resize($width, $height);
+        $img->resize($width, $height, function ($constraint) {
+            $constraint->aspectRatio();
+        });
         $dirname = base_path().'/public/uploads/'.date('Ymd');
         $dir = iconv("UTF-8", "GBK", $dirname);
         $ImgSrc = $dirname.'/'.$newName;
