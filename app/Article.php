@@ -2,6 +2,7 @@
 
 namespace App;
 
+use JWTAuth;
 use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
@@ -22,5 +23,17 @@ class Article extends Model
     {
         return $this->morphMany('App\Commit', 'commit')->with('user')->orderBy('created_at','desc');
     }
+
+    public function favs()
+    {
+        return $this->morphMany('App\Fav', 'fav')->orderBy('created_at','desc');
+    }
+
+    public function hasfav($user_id = 0)
+    {
+
+        return !! $this->morphMany('App\Fav', 'fav')->where('user_id', $user_id)->count();
+    }
+
 
 }

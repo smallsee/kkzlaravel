@@ -137,8 +137,8 @@ class VideoRepository extends Repository{
         return $video;
     }
 
-    public function findHotAll(){
-        return $this->model->orderBy('see','desc')->take(10)->get();
+    public function findHotAll($num){
+        return $this->model->orderBy('see','desc')->take($num)->get();
     }
 
 

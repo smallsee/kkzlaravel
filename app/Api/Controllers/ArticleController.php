@@ -13,7 +13,7 @@ use App\Api\Transformers\ArticleTransformer;
 use App\Api\Transformers\ReplyTransformer;
 use App\Repositories\Eloquent\ArticleRepository;
 use Dingo\Api\Http\Request;
-
+use JWTAuth;
 class ArticleController extends BaseController
 {
 
@@ -29,12 +29,34 @@ class ArticleController extends BaseController
 
     public function index(){
 
-        $art = $this->article->findAll();
-        $art->load('user');
-        if(! $art){
+        $article = $this->article->findAll();
+        $article->load('user');
+
+        foreach ($article as $item){
+            $item->hasfav = false;
+        }
+        if(! $article){
             return $this->reply->error(1,'类型没有数据');
         }
-        return $this->collection($art, new ArticleTransformer())->addMeta('errno', 0);
+        return $this->collection($article, new ArticleTransformer())->addMeta('errno', 0);
+    }
+
+    public function show($id) {
+        $user = '';
+        if (! $user = JWTAuth::parseToken()->authenticate()) {
+            $user->id = 0;
+        }
+
+        $article = $this->article->findById($id);
+        $article->load('user','commits','favs');
+        $hasFav = $article->hasfav($user->id);
+        $article->hasfav = $hasFav;
+
+        if(! $article){
+            return $this->reply->error(1,'文章没有数据');
+        }
+
+        return $this->response->item($article, new ArticleTransformer())->addMeta('errno', 0);
     }
 
     public function store(Request $request){

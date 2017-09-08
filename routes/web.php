@@ -37,6 +37,9 @@ $api->version('v1', function ($api) {
         $api->get('commit','CommitController@index');
         $api->post('commit','CommitController@store');
 
+        $api->get('fav','FavController@index');
+        $api->post('fav','FavController@store');
+
 
         $api->get('topic','TopicController@index');
         $api->get('tag','TagController@index');
@@ -44,6 +47,7 @@ $api->version('v1', function ($api) {
         $api->get('week','WeekController@index');
         $api->get('video','VideoController@homeIndex');
         $api->get('video/search','VideoController@search');
+        $api->get('video/hot','VideoController@hot');
         $api->get('video/recommend','VideoController@homeRecommend');
 
         $api->resource('admin/video','VideoController');

@@ -13,6 +13,11 @@ class ArticleRepository extends Repository{
         return Article::class;
     }
 
+    public function findAll()
+    {
+        return $this->model->orderBy('created_at','desc')->get();
+    }
+
     function createArticleAndTopic(array $attributes){
 
         $topics = $attributes['topic'];
@@ -44,6 +49,8 @@ class ArticleRepository extends Repository{
                     'use_count' => 0
                 ];
                 $topic = Topic::firstOrCreate($topic_data);
+            }else{
+                $topic->increment('use_count');
             }
 
             $article_topic_data = [
@@ -111,5 +118,12 @@ class ArticleRepository extends Repository{
         return $article;
 
 
+    }
+
+    public function findById($id)
+    {
+        $article = $this->model->find($id);
+        $article->increment('see');
+        return $article;
     }
 }

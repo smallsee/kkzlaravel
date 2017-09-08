@@ -93,6 +93,26 @@ abstract class Repository implements RepositoryInterface {
         return $model->create($attributes);
     }
 
+    public function createFav($attributes){
+        $model = new $this->model;
+        $hasfav = $model->where([
+            ['user_id',$attributes['user_id']],
+            ['fav_type',$attributes['fav_type']],
+            ['fav_id',$attributes['fav_id']]
+        ])->first();
+
+        if ($hasfav){
+            $hasfav->delete();
+            return 0;
+        }else{
+            $model->create($attributes);
+            return 1;
+        }
+
+
+
+    }
+
     public function makeModel(){
         $model = $this->app->make($this->model());
         /*是否是Model实例*/

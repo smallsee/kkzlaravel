@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Article;
 use App\Video;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -19,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         Relation::morphMap([
             'video' => Video::class,
+            'article' => Article::class,
         ]);
     }
 

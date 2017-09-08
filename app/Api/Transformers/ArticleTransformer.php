@@ -22,6 +22,12 @@ class ArticleTransformer extends TransformerAbstract
           'status' => $artisan['status'],
           'see' => $artisan['see'],
             'user' => $artisan['user'],
+            'commits_count' => count($artisan['commits']),
+            'commits' => $artisan['commits'],
+            'favs_count' => count($artisan['favs']),
+            'favs' => $artisan['favs'],
+            'hasfav' => $artisan['hasfav'],
+            'created_at' => $artisan['created_at'],
         ];
     }
 

@@ -24,7 +24,7 @@ class VideoController extends BaseController
 
     public function __construct(VideoRepository $video)
     {
-        $this->middleware('jwt.auth')->except(['index','show','homeIndex','homeRecommend','search']);
+        $this->middleware('jwt.auth')->except(['index','show','homeIndex','homeRecommend','search','hot']);
 
         $reply = new ReplyTransformer();
 
@@ -34,6 +34,16 @@ class VideoController extends BaseController
 
     public function search(Request $request) {
         return $this->video->findLikeTitle($request->get('title'));
+    }
+
+    public function hot(Request $request) {
+        $video = $this->video->findHotAll(10);
+        $video->load('files','commits');
+        if(! $video){
+            return $this->reply->error(1,'视频没有数据');
+        }
+
+        return $this->collection($video, new HomeVideoTransformer())->addMeta('errno', 0);
     }
 
     public function homeIndex(){
