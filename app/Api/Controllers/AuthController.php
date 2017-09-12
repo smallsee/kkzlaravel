@@ -38,7 +38,10 @@ class AuthController extends BaseController
         $newUser = [
           'name' => $request->get('name'),
           'email' => $request->get('email'),
+          'thumb' => $request->get('thumb'),
+          'status' => 0,
           'password' => bcrypt($request->get('password')),
+          'confirmation_token' => str_random(40),
         ];
 
         $user = User::create($newUser);

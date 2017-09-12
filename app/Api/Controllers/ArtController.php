@@ -36,6 +36,18 @@ class ArtController extends BaseController
         return $this->collection($art, new ArtTransformer())->addMeta('errno', 0);
     }
 
+    public function hot(Request $request) {
+
+        $art = $this->art->findHotAll(10);
+        $art->load('user');
+
+        if(! $art){
+            return $this->reply->error(1,'文章没有数据');
+        }
+
+        return $this->collection($art, new ArtTransformer())->addMeta('errno', 0);
+    }
+
     public function store(Request $request){
 
         $art = $this->art->createArt($request->all());

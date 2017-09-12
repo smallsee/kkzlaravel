@@ -93,6 +93,10 @@ abstract class Repository implements RepositoryInterface {
         return $model->create($attributes);
     }
 
+    public function findHotAll($num){
+        return $this->model->orderBy('see','desc')->take($num)->get();
+    }
+
     public function createFav($attributes){
         $model = new $this->model;
         $hasfav = $model->where([
@@ -108,9 +112,23 @@ abstract class Repository implements RepositoryInterface {
             $model->create($attributes);
             return 1;
         }
+    }
 
 
+    public function createFan($attributes){
+        $model = new $this->model;
+        $hasfan = $model->where([
+            ['fan_id',$attributes['fan_id']],
+            ['star_id',$attributes['star_id']]
+        ])->first();
 
+        if ($hasfan){
+            $hasfan->delete();
+            return 0;
+        }else{
+            $model->create($attributes);
+            return 1;
+        }
     }
 
     public function makeModel(){

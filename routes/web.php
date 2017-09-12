@@ -40,6 +40,9 @@ $api->version('v1', function ($api) {
         $api->get('fav','FavController@index');
         $api->post('fav','FavController@store');
 
+        $api->post('fan','FanController@fan');
+        $api->get('hasfan','FanController@hasFan');
+
 
         $api->get('topic','TopicController@index');
         $api->get('tag','TagController@index');
@@ -53,6 +56,8 @@ $api->version('v1', function ($api) {
         $api->resource('admin/video','VideoController');
         $api->resource('admin/art','ArtController');
         $api->resource('admin/article','ArticleController');
+        $api->get('art/hot','ArtController@hot');
+        $api->get('article/hot','ArticleController@hot');
 
 
         $api->group(['middleware' => 'jwt.auth'], function ($api){

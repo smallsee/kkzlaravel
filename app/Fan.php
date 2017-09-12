@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Fan extends Model
 {
-
+    protected $fillable = [
+        'fan_id','star_id'
+    ];
 }

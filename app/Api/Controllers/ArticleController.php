@@ -13,15 +13,20 @@ use App\Api\Transformers\ArticleTransformer;
 use App\Api\Transformers\ReplyTransformer;
 use App\Repositories\Eloquent\ArticleRepository;
 use Dingo\Api\Http\Request;
-use JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+
+
 class ArticleController extends BaseController
 {
+
 
     private $article;
     private $reply;
 
     public function __construct(ArticleRepository $article)
     {
+        $this->middleware('jwt.auth')->only(['store','destroy','update']);
         $reply = new ReplyTransformer();
         $this->article = $article;
         $this->reply = $reply;
@@ -36,20 +41,41 @@ class ArticleController extends BaseController
             $item->hasfav = false;
         }
         if(! $article){
-            return $this->reply->error(1,'类型没有数据');
+            return $this->reply->error(1,'文章没有数据');
         }
         return $this->collection($article, new ArticleTransformer())->addMeta('errno', 0);
     }
 
-    public function show($id) {
-        $user = '';
-        if (! $user = JWTAuth::parseToken()->authenticate()) {
-            $user->id = 0;
+    public function hot(Request $request) {
+
+        $article = $this->article->findHotAll(10);
+        $article->load('user');
+        foreach ($article as $item){
+            $item->hasfav = false;
         }
+
+        if(! $article){
+            return $this->reply->error(1,'文章没有数据');
+        }
+
+        return $this->collection($article, new ArticleTransformer())->addMeta('errno', 0);
+    }
+
+    public function show(Request $request, $id) {
+
+        $api_token = $request->get('api_token','false');
+
 
         $article = $this->article->findById($id);
         $article->load('user','commits','favs');
-        $hasFav = $article->hasfav($user->id);
+
+        if ($api_token === true){
+            $user = JWTAuth::parseToken()->authenticate();
+            $hasFav = $article->hasfav($user->id);
+        }else{
+            $hasFav  = false;
+        }
+
         $article->hasfav = $hasFav;
 
         if(! $article){
