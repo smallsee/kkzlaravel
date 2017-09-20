@@ -32,9 +32,7 @@ class VideoController extends BaseController
         $this->reply = $reply;
     }
 
-    public function search(Request $request) {
-        return $this->video->findLikeTitle($request->get('title'));
-    }
+
 
     public function hot(Request $request) {
         $video = $this->video->findHotAll(10);

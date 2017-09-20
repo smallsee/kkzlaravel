@@ -8,6 +8,8 @@
 
 namespace App\Api\Controllers;
 
+use App\Api\Transformers\FanStarTransformer;
+use App\Api\Transformers\FanTransformer;
 use App\Api\Transformers\ReplyTransformer;
 use App\Repositories\Eloquent\FanRepository;
 use Dingo\Api\Http\Request;
@@ -49,6 +51,20 @@ class FanController extends BaseController
 
 
         return $this->reply->data(1002,'未关注');
+    }
+
+    public function userFan(Request $request){
+        $type = $request->get('type') === 'fan_id' ? 'star' : 'fan';
+        $fan = $this->fan->findUserFind($request->all());
+
+        $fan->load($type);
+
+        if ($type === 'fan'){
+            return $this->collection($fan, new FanTransformer())->addMeta('errno', 0);
+        }else{
+            return $this->collection($fan, new FanStarTransformer())->addMeta('errno', 0);
+        }
+
     }
 
 

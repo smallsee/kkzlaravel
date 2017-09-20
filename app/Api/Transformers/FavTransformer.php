@@ -14,7 +14,9 @@ class FavTransformer extends TransformerAbstract
 {
     public function transform($fav){
         return [
-          'user' => $fav['user'],
+            'id' => $fav['fav']['id'],
+            'thumb' => $fav['fav']['thumb'],
+            'title' => $fav['fav']['title'],
         ];
     }
 

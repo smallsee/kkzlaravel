@@ -61,4 +61,24 @@ class FavController extends BaseController
     }
 
 
+    public function hasFav(Request $request){
+
+        $fav = $this->fav->hasFav($request->all());
+
+        if (!$fav){
+            return $this->reply->data(1001,'已收藏');
+        }
+
+
+        return $this->reply->data(1002,'收藏');
+    }
+
+    public function userFav(Request $request){
+
+        $fav = $this->fav->findUserFav($request->all());
+        $fav->load('fav');
+
+        return $this->collection($fav, new FavTransformer())->addMeta('errno', 0);
+    }
+
 }

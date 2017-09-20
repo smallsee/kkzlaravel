@@ -37,9 +37,6 @@ class ArticleController extends BaseController
         $article = $this->article->findAll();
         $article->load('user');
 
-        foreach ($article as $item){
-            $item->hasfav = false;
-        }
         if(! $article){
             return $this->reply->error(1,'文章没有数据');
         }
@@ -50,9 +47,6 @@ class ArticleController extends BaseController
 
         $article = $this->article->findHotAll(10);
         $article->load('user');
-        foreach ($article as $item){
-            $item->hasfav = false;
-        }
 
         if(! $article){
             return $this->reply->error(1,'文章没有数据');
@@ -69,14 +63,6 @@ class ArticleController extends BaseController
         $article = $this->article->findById($id);
         $article->load('user','commits','favs');
 
-        if ($api_token === true){
-            $user = JWTAuth::parseToken()->authenticate();
-            $hasFav = $article->hasfav($user->id);
-        }else{
-            $hasFav  = false;
-        }
-
-        $article->hasfav = $hasFav;
 
         if(! $article){
             return $this->reply->error(1,'文章没有数据');

@@ -11,9 +11,8 @@ class FanRepository extends Repository{
         return Fan::class;
     }
 
-    public function hasFan($attributes){
-        $model = new $this->model;
-        $hasfan = $model->where([
+    public function hasFan(array $attributes){
+        $hasfan = $this->model->where([
             ['fan_id',$attributes['fan_id']],
             ['star_id',$attributes['star_id']]
         ])->first();
@@ -23,6 +22,14 @@ class FanRepository extends Repository{
         }else{
             return 1;
         }
+    }
+
+    public function findUserFind(array $attributes){
+        $fan = $this->model->where([
+            [$attributes['type'],$attributes['user_id']],
+        ])->get();
+
+        return $fan;
     }
 
 

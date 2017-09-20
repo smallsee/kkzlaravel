@@ -14,8 +14,9 @@ class FanTransformer extends TransformerAbstract
 {
     public function transform($fan){
         return [
-          'fan_id' => $fan['fan_id'],
-          'star_id' => $fan['star_id'],
+          'id' => isset($fan['fan']['id']) ? $fan['fan']['id'] : $fan['fan']['id'],
+          'name' => isset($fan['fan']['name'])  ? $fan['fan']['name'] : $fan['fan']['name'],
+          'thumb' => isset($fan['fan']['thumb'])  ? $fan['fan']['thumb'] : $fan['fan']['thumb'],
         ];
     }
 

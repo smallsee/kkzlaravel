@@ -11,6 +11,19 @@ class CommitRepository extends Repository{
         return Commit::class;
     }
 
+    function findUserCommit(array $attributes){
+
+        $user_id = $attributes['user_id'];
+        $commit_type = $attributes['commit_type'];
+
+        return $this->model->where([
+            ['user_id',$user_id],
+            ['commit_type',$commit_type],
+        ])->get();
+
+
+    }
+
 
 
 }

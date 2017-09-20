@@ -16,6 +16,9 @@ class CommitTransformer extends TransformerAbstract
         return [
           'content' => $commit['content'],
           'user' => $commit['user'],
+          'created_at' => $commit['created_at'],
+          'commit_title' => $commit['commit']['title'],
+          'commit_id' => $commit['commit']['id'],
         ];
     }
 

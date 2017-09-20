@@ -56,5 +56,10 @@ class CommitController extends BaseController
         return $this->response->item($commit, new CommitTransformer())->addMeta('errno', 0);
     }
 
+    public function userCommit(Request $request){
 
+        $commit = $this->commit->findUserCommit($request->all());
+        $commit->load('user','commit');
+        return $this->collection($commit, new CommitTransformer())->addMeta('errno', 0);
+    }
 }

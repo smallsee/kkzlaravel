@@ -36,12 +36,16 @@ $api->version('v1', function ($api) {
 
         $api->get('commit','CommitController@index');
         $api->post('commit','CommitController@store');
+        $api->get('user/commit','CommitController@userCommit');
 
         $api->get('fav','FavController@index');
+        $api->get('hasfav','FavController@hasFav');
         $api->post('fav','FavController@store');
+        $api->get('user/fav','FavController@userFav');
 
         $api->post('fan','FanController@fan');
         $api->get('hasfan','FanController@hasFan');
+        $api->get('user/fan','FanController@userFan');
 
 
         $api->get('topic','TopicController@index');
@@ -49,7 +53,7 @@ $api->version('v1', function ($api) {
         $api->get('akira','AkiraController@index');
         $api->get('week','WeekController@index');
         $api->get('video','VideoController@homeIndex');
-        $api->get('video/search','VideoController@search');
+        $api->get('search','SearchController@search');
         $api->get('video/hot','VideoController@hot');
         $api->get('video/recommend','VideoController@homeRecommend');
 
