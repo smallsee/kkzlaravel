@@ -11,6 +11,12 @@ class UserRepository extends Repository{
         return User::class;
     }
 
+    public function update($user,array $attributes){
+        $user = $this->model->find($user->id);
+        $user->name = $attributes['name'];
+        $user->save();
+        return $user;
+    }
 
 
 }

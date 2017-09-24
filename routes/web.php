@@ -27,8 +27,12 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function ($api) {
 
     $api->group(['namespace' => 'App\Api\Controllers'], function ($api) {
+
+
         $api->post('user/login','AuthController@authenticate');
         $api->post('user/register','AuthController@register');
+        $api->post('user/info/thumb','UserController@thumb');
+        $api->patch('user/info/update','UserController@update');
 
         $api->post('image/','ImageController@upload');
         $api->post('image/delete','ImageController@delete');
@@ -37,6 +41,9 @@ $api->version('v1', function ($api) {
         $api->get('commit','CommitController@index');
         $api->post('commit','CommitController@store');
         $api->get('user/commit','CommitController@userCommit');
+
+
+        $api->get('user/user/{id}','UserController@userInfo');
 
         $api->get('fav','FavController@index');
         $api->get('hasfav','FavController@hasFav');
