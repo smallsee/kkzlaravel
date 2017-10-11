@@ -65,6 +65,17 @@ abstract class Repository implements RepositoryInterface {
         return response()->json(true);
     }
 
+    /**
+     * 作用：从mysql数据表中删除
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteByIdTrue($id){
+        $data = $this->model->find($id);
+        $data->delete();
+        return response()->json(true);
+    }
+
 
     /**
      * 作用：根据传进来的ID和数组更改值

@@ -43,6 +43,8 @@ $api->version('v1', function ($api) {
         $api->get('user/commit','CommitController@userCommit');
 
 
+
+
         $api->get('user/user/{id}','UserController@userInfo');
 
         $api->get('fav','FavController@index');
@@ -65,8 +67,10 @@ $api->version('v1', function ($api) {
         $api->get('video/recommend','VideoController@homeRecommend');
 
         $api->resource('admin/video','VideoController');
+        $api->resource('admin/category','CategoryController');
         $api->resource('admin/art','ArtController');
         $api->resource('admin/article','ArticleController');
+        $api->resource('admin/shop','ShopController');
         $api->get('art/hot','ArtController@hot');
         $api->get('article/hot','ArticleController@hot');
 
